@@ -1,12 +1,15 @@
 #include "Server.h"
+#include <mutex>
 
 // runServer will get all data from game to buffer and put into map
 void Server::runServer(int client_socket) {
     Singleton *database = database->getInstance();
     string next_buff = "";
     int  sim_index = 0;
+    mutex Mutex;
     while (1) {
-
+        //database->setMutexLocked(); // locked Mutex, initiate open server
+        Mutex.lock();
         //reading from client
         char buffer[1024] = {0};
         string value_buf = next_buff;
@@ -21,6 +24,9 @@ void Server::runServer(int client_socket) {
                 cout << value_buf << ", ";
                 value_buf = "";
                 if (buffer[i] == '\n') {
+                    database->InitializationofAllVarsFromXML();
+                 //   database->setMutexUnlocked();
+                   Mutex.unlock();
                     cout << endl;
                     sim_index = 0;
                 }
@@ -33,6 +39,6 @@ void Server::runServer(int client_socket) {
             // concatenate value
             value_buf = value_buf + bufferString[i];
         }
-        //cout << buffer << "-----server"<< endl;
+    //    cout << buffer << endl;
     }
 }

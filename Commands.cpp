@@ -78,11 +78,11 @@ int OpenServerCommand::execute(vector<string> &str, int i) {
 
 
 void OpenServerCommand::executeServer(int client_socket) {
-  Singleton* t = t->getInstance();
-  t->setMutexLocked(); // locked Mutex, initiate open server
+  //Singleton* t = t->getInstance();
+ // t->setMutexLocked(); // locked Mutex, initiate open server
     Server *server = new Server();
     server->runServer(client_socket);
-    t->setMutexUnlocked();//open server command has established a connection between game and server. now you can unlock Mutex
+  //  t->setMutexUnlocked();//open server command has established a connection between game and server. now you can unlock Mutex
 }
 
 int ConnectCommand::execute(vector<string> &str, int i) {
@@ -128,8 +128,12 @@ int ConnectCommand::execute(vector<string> &str, int i) {
 }
 
 void ConnectCommand::executeConnect(int client_socket) {
+  //  Singleton* t = t->getInstance();
+   // t->setMutexLocked(); // locked Mutex, initiate open server
     Client *client = new Client();
     client->runClient(client_socket);
+    //t->setMutexUnlocked();//open server command has established a connection between game and server. now you can unlock Mutex
+
 }
 
 int DefineVarCommand::execute(vector<string> &str, int i) {
